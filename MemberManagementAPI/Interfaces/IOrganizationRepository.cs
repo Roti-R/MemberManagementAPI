@@ -6,6 +6,8 @@ namespace MemberManagementAPI.Interfaces
     {
         ICollection<Organization> GetAllOrganizations();
 
+        ICollection<Organization> GetOrganizations(Guid parentId);
+
         ICollection<Organization> GetOrganization(string type);
         Organization GetOrganization(Guid orgId);
 

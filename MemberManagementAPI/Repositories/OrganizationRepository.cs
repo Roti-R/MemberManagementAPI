@@ -17,10 +17,17 @@ namespace MemberManagementAPI.Repositories
             return _context.Organizations.ToList();
         }
 
+        public ICollection<Organization> GetOrganizations(Guid parentId)
+        {
+            throw new NotImplementedException();
+        }
+
         public ICollection<Organization> GetOrganization(string type)
         {
             return _context.Organizations.Where(org =>  org.Type == type).ToList();
         }
+
+
         public Organization GetOrganization(Guid orgId)
         {
             return _context.Organizations.Where(org => org.OrgID == orgId).FirstOrDefault();
@@ -30,7 +37,7 @@ namespace MemberManagementAPI.Repositories
 
         public bool OrganizationExists(Guid orgId)
         {
-            throw new NotImplementedException();
+            return _context.Organizations.Any(org => org.OrgID == orgId);
         }
 
 
@@ -62,6 +69,6 @@ namespace MemberManagementAPI.Repositories
             return saved > 0 ? true : false;
         }
 
-
+      
     }
 }

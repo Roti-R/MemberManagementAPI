@@ -10,6 +10,7 @@ namespace MemberManagementAPI.Data
         [Key]
         public Guid OrgID { get; set; }
         [Required]
+        [RegularExpression("[a-z]|[A-Z]")]
         public string Name { get; set; }
         [Required]
         public string Type { get; set; }
