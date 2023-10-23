@@ -22,7 +22,7 @@ namespace MemberManagementAPI.Data
         public ICollection<OrganizationManager>? OrganizationManagers { get; set; }
 
 
-        public Organization Organization { get; set; }
-        public Guid CurrentOrganizationID { get; set; }
+        public Organization? Organization { get; set; }
+        public Guid? CurrentOrganizationID { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using MemberManagementAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemberManagementAPI.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    partial class MyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20231020123922_updateConnectionString")]
+    partial class updateConnectionString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,7 +56,7 @@ namespace MemberManagementAPI.Migrations
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("CurrentOrganizationID")
+                    b.Property<Guid>("CurrentOrganizationID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("JoinDate")
@@ -129,7 +131,8 @@ namespace MemberManagementAPI.Migrations
                     b.HasOne("MemberManagementAPI.Data.Organization", "Organization")
                         .WithMany("Members")
                         .HasForeignKey("CurrentOrganizationID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Organization");
                 });

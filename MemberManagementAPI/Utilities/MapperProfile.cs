@@ -11,6 +11,8 @@ namespace MemberManagementAPI.Utilities
             CreateMap<Account, AccountModel>();
             CreateMap<Organization, OrganizationModel>();
             CreateMap<OrganizationModel, Organization>();
+            CreateMap<Member, MemberModel>();
+            CreateMap<MemberModel, Member>();
         }
 
     }
