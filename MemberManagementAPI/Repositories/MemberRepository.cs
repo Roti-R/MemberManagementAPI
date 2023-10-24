@@ -13,7 +13,7 @@ namespace MemberManagementAPI.Repositories
         }
         public ICollection<Member> GetAllMembers()
         {
-            return _context.Members.ToList();
+            return RemoveAdmin(_context.Members.ToList());
         }
 
         public bool CreateMember(Member memberCreate)
@@ -22,25 +22,41 @@ namespace MemberManagementAPI.Repositories
             return Save();
         }
 
-        public bool DeleteMember(Guid memberDelete)
+        public bool DeleteMember(Member memberDelete)
         {
-            throw new NotImplementedException();
+            _context.Members.Remove(memberDelete);
+            return Save();
         }
 
-        public ICollection<Member> GetMember(Guid memberId)
+        public Member GetMember(Guid memberId)
         {
-            throw new NotImplementedException();
+            return _context.Members.Where(member => member.MemberID == memberId).FirstOrDefault();
         }
-
         public bool MemberExists(Guid memberId)
         {
-            throw new NotImplementedException();
+            return _context.Members.Any(member => member.MemberID == memberId);
         }
 
         public bool Save()
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
+        }
+
+        public Organization GetOrganizationOfMember(Guid memberId)
+        {
+            var member = this.GetMember(memberId);
+            if(member.CurrentOrganizationID == null) { return null; }
+            return _context.Organizations.Where(org => org.OrgID == member.CurrentOrganizationID).FirstOrDefault();
+        }
+
+        public ICollection<Member> RemoveAdmin(ICollection<Member> MemberList)
+        {
+            Guid adminGuid = new Guid("92E8C2B2-97D9-4D6D-A9B7-48CB0D039A84");
+            var admin = this.GetMember(adminGuid);
+            MemberList.Remove(admin);
+            return MemberList;
+
         }
     }
 }

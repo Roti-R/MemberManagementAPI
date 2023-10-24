@@ -8,5 +8,7 @@
         public DateTime? BirthDate { get; set; }
         public DateTime JoinDate { get; set; }
         public string? Address { get; set; }
+
+        public Guid? CurrentOrganizationID { get; set; }
     }
 }

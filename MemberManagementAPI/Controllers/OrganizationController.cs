@@ -96,7 +96,7 @@ namespace MemberManagementAPI.Controllers
             var organizationToDelete = _organizationRepository.GetOrganization(orgId);
             if(!_organizationRepository.DeleteOrganizationAndChild(organizationToDelete))
             {
-                ModelState.AddModelError("", "Something wrong when delete organization");
+                ModelState.AddModelError("", "Có lỗi xảy ra khi xóa tổ chức!");
             }
             return NoContent();
 

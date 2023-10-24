@@ -6,14 +6,17 @@ namespace MemberManagementAPI.Interfaces
     {
         ICollection<Member> GetAllMembers();
 
-        ICollection<Member> GetMember(Guid memberId);
+        Member GetMember(Guid memberId);
+
+        Organization GetOrganizationOfMember(Guid memberId);
 
         bool MemberExists(Guid memberId);
 
         bool CreateMember(Member memberCreate);
 
-        bool DeleteMember(Guid memberDelete);
+        bool DeleteMember(Member memberDelete);
 
+        ICollection<Member> RemoveAdmin(ICollection<Member> MemberList);
         bool Save();
 
 

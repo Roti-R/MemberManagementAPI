@@ -25,6 +25,28 @@ namespace MemberManagementAPI.Controllers
             return Ok(memberList);
 
         }
+        [HttpGet("{memberId}")]
+        public IActionResult GetMemberById(Guid memberId) {
+            if(_memberRepository.MemberExists(memberId))
+            {
+                return NotFound();
+            }    
+            var member = _memberRepository.GetMember(memberId);
+            var memberMap = _mapper.Map<MemberModel>(member);
+            return Ok(memberMap);
+        }
+        [HttpGet("{memberId}/Organization")]
+        public IActionResult GetOrganizationOfMember(Guid memberId) {
+            if(!_memberRepository.MemberExists(memberId)) { return NotFound(); }
+
+            var organization = _memberRepository.GetOrganizationOfMember(memberId);
+
+            if(organization == null) { return NotFound(); }
+            var organizationMap = _mapper.Map<OrganizationModel>(organization);
+
+            if(!ModelState.IsValid) { return BadRequest(); }
+            return Ok(organizationMap);
+        }
         
 
 
@@ -40,9 +62,9 @@ namespace MemberManagementAPI.Controllers
             }
 
             var member = _memberRepository.GetAllMembers().Where(m => m.PhoneNumber == memberCreate.PhoneNumber).FirstOrDefault();
-            if(member != null && member.PhoneNumber != null)
+            if(member != null && (member.PhoneNumber != null && member.PhoneNumber != ""))
             {
-                ModelState.AddModelError("errorMessage", "Đã có thành viên sử dụng SĐT này");
+                ModelState.AddModelError("error", "Đã có thành viên sử dụng SĐT này");
                 return StatusCode(422, ModelState);
             }
 
@@ -53,6 +75,26 @@ namespace MemberManagementAPI.Controllers
             {
                 ModelState.AddModelError("", "Có lỗi đã xảy ra khi tạo thành viên!");
                 return StatusCode(500, ModelState);
+            }
+            return CreatedAtAction(nameof(GetMemberById), new { memberId = memberMap.MemberID }, _mapper.Map<MemberModel>(memberMap));
+        }
+
+        [HttpDelete("{memberId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(204)]
+        public IActionResult DeleteMember(Guid memberId)
+        {
+            if(!_memberRepository.MemberExists(memberId))
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            var memberDelete = _memberRepository.GetMember(memberId);
+            if(!_memberRepository.DeleteMember(memberDelete))
+            {
+                ModelState.AddModelError("", "Có lỗi xảy ra khi xóa tổ chức!");
             }
             return NoContent();
         }
