@@ -58,6 +58,10 @@ namespace MemberManagementAPI.Repositories
             {
                 DeleteOrganizationAndChild(child);
             }
+            foreach(Member member in GetAllMembers(organization.OrgID))
+            {
+                member.CurrentOrganizationID = null;
+            }    
             _context.Organizations.Remove(organization);
             return Save();
         }
@@ -69,6 +73,9 @@ namespace MemberManagementAPI.Repositories
             return saved > 0 ? true : false;
         }
 
-      
+        public ICollection<Member> GetAllMembers(Guid orgId)
+        {
+            return _context.Members.Where(m => m.CurrentOrganizationID == orgId).ToList();
+        }
     }
 }

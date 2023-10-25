@@ -58,5 +58,11 @@ namespace MemberManagementAPI.Repositories
             return MemberList;
 
         }
+
+        public bool UpdateMember(Member memberUpdate)
+        {
+            _context.Members.Update(memberUpdate);
+            return Save();
+        }
     }
 }

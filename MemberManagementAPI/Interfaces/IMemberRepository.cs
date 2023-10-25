@@ -15,6 +15,7 @@ namespace MemberManagementAPI.Interfaces
         bool CreateMember(Member memberCreate);
 
         bool DeleteMember(Member memberDelete);
+        bool UpdateMember(Member memberUpdate);
 
         ICollection<Member> RemoveAdmin(ICollection<Member> MemberList);
         bool Save();

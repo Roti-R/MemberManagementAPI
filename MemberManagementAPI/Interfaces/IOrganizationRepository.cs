@@ -11,7 +11,7 @@ namespace MemberManagementAPI.Interfaces
         ICollection<Organization> GetOrganization(string type);
         Organization GetOrganization(Guid orgId);
 
-
+        ICollection<Member> GetAllMembers(Guid orgId);
 
         bool OrganizationExists(Guid orgId);
 
