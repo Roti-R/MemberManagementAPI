@@ -2,6 +2,7 @@
 using MemberManagementAPI.Data;
 using MemberManagementAPI.Interfaces;
 using MemberManagementAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MemberManagementAPI.Controllers
@@ -73,7 +74,7 @@ namespace MemberManagementAPI.Controllers
             var memberMap = _mapper.Map<Member>(memberCreate);
             if (!_memberRepository.CreateMember(memberMap))
             {
-                ModelState.AddModelError("", "Có lỗi đã xảy ra khi tạo thành viên!");
+                ModelState.AddModelError("error", "Có lỗi đã xảy ra khi tạo thành viên!");
                 return StatusCode(500, ModelState);
             }
             return CreatedAtAction(nameof(GetMemberById), new { memberId = memberMap.MemberID }, _mapper.Map<MemberModel>(memberMap));
@@ -90,11 +91,12 @@ namespace MemberManagementAPI.Controllers
                 return NotFound();
             }
 
-            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }    
             var memberDelete = _memberRepository.GetMember(memberId);
             if (!_memberRepository.DeleteMember(memberDelete))
             {
-                ModelState.AddModelError("", "Có lỗi xảy ra khi xóa tổ chức!");
+                ModelState.AddModelError("error", "Có lỗi xảy ra khi xóa thành viên!");
+                return StatusCode(500, ModelState);
             }
             return NoContent();
         }
@@ -128,6 +130,7 @@ namespace MemberManagementAPI.Controllers
             if(!_memberRepository.UpdateMember(memberMap))
             {
                 ModelState.AddModelError("error", "Có lỗi xảy ra khi cập nhật thành viên");
+                return StatusCode(500, ModelState);
             }
             var memberUpdated = _mapper.Map<MemberModel>(memberMap);
             return Ok(memberUpdated);

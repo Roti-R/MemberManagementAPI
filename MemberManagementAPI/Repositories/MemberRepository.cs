@@ -19,6 +19,7 @@ namespace MemberManagementAPI.Repositories
         public bool CreateMember(Member memberCreate)
         {
             _context.Members.Add(memberCreate);
+
             return Save();
         }
 
@@ -58,8 +59,13 @@ namespace MemberManagementAPI.Repositories
             return MemberList;
 
         }
+        public bool DeleteManagerFromOrganizationAndChild(Guid memberID)
+        {
+            _context.OrganizationManagers.RemoveRange(_context.OrganizationManagers.Where(m => m.ManagerID == memberID));
+            return Save();
+        }
 
-        public bool UpdateMember(Member memberUpdate)
+            public bool UpdateMember(Member memberUpdate)
         {
             _context.Members.Update(memberUpdate);
             return Save();

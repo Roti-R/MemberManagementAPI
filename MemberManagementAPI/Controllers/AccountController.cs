@@ -96,7 +96,7 @@ namespace MemberManagementAPI.Controllers
                 {
                     new Claim("username", username),
                 } ),
-                Expires = DateTime.UtcNow.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddMinutes(60),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(bytedSecretKey), SecurityAlgorithms.HmacSha256Signature)
 
             };

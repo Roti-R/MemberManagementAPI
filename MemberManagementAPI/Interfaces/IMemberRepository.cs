@@ -16,6 +16,7 @@ namespace MemberManagementAPI.Interfaces
 
         bool DeleteMember(Member memberDelete);
         bool UpdateMember(Member memberUpdate);
+        public bool DeleteManagerFromOrganizationAndChild(Guid memberID);
 
         ICollection<Member> RemoveAdmin(ICollection<Member> MemberList);
         bool Save();
